@@ -3,7 +3,7 @@
 namespace Test\App\extensions;
 
 use App\extensions\BotException;
-use App\extensions\Exchange;
+use App\extensions\BotExchange;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,23 +12,23 @@ use PHPUnit\Framework\TestCase;
 class ExchangeTest extends TestCase {
 
     public function testBinanceAsValidExchange() {
-        $exchange = new Exchange("binance");
+        $exchange = new BotExchange("binance");
         $this->assertEquals("ccxt\\binance", get_class($exchange->getExchange()));
     }
 
     public function testKrakenAsValidExchange() {
-        $exchange = new Exchange("kraken");
+        $exchange = new BotExchange("kraken");
         $this->assertEquals("ccxt\\kraken", get_class($exchange->getExchange()));
     }
 
     public function testInvalidExchante() {
         $this->expectException(BotException::class);
-        new Exchange("inexistent");
+        new BotExchange("inexistent");
     }
 
     public function testDefaultExchange() {
         $_ENV["EXCHANGE"] = "binance";
-        $exchange         = new Exchange();
+        $exchange         = new BotExchange();
         $this->assertEquals("ccxt\\binance", get_class($exchange->getExchange()));
     }
 

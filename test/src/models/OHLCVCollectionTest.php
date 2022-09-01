@@ -113,4 +113,28 @@ class OHLCVCollectionTest extends TestCase {
         $this->assertEquals($timeStamps, $this->object->getTimestamps());
     }
 
+    public function testGetSpecificOpen() {
+        $this->assertEquals(4233.4, $this->object->getOpens(3));
+    }
+
+    public function testGetSpecificClose() {
+        $this->assertEquals(4232.7, $this->object->getCloses(2));
+    }
+
+    public function getHighs() {
+        $this->assertEquals(4241.8, $this->object->getHighs(1));
+    }
+
+    public function testGetSpecificLow() {
+        $this->assertEquals(4230.0, $this->object->getLows(0));
+    }
+
+    public function testGetSpecificTimestamp() {
+        $this->assertEquals(1504541880000, $this->object->getTimestamps(3));
+    }
+
+    public function testSpecitTimeStampFormat() {
+        $this->assertEquals("2017-09-04 16:18:00", $this->object->getFormatedTimeStamp(3));
+    }
+
 }

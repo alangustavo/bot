@@ -122,7 +122,7 @@ class OHLCV {
      * @param string $format
      * @return string
      */
-    public function getDateFormat($format = "Y-m-d H:i:s"): string {
+    public function getDateFormat(string $format = "Y-m-d H:i:s"): string {
         $date = new \DateTime();
         $date->setTimestamp($this->getTimestamp() / 1000);
         return $date->format($format);

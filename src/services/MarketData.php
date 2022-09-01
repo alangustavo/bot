@@ -2,6 +2,10 @@
 
 namespace App\services;
 
+use App\extensions\BotExchange as Exchange2;
+use App\models\TimeFrame;
+use ccxt\Exchange;
+
 /*
  * Este arquivo é parte do Projeto bot
  * Autor:alangustavo
@@ -21,13 +25,20 @@ class MarketData {
     private $symbol;
 
     /**
-     *
-     * @var ccxt/
+     * Exchange
+     * @var Exchange
      */
     private $exchange;
 
-    public function __construct(string $symbol, ?string $exchange = null) {
-        
+    /**
+     *
+     * @param string $symbol - ex.: BTC/USDT
+     * @param Exchange2 $exchange
+     */
+    public function __construct(string $symbol, TimeFrame $timeFrame, Exchange2 $exchange) {
+
+        $this->exchange = $exchange->getExchange();
+        $precision      = ini_get('trader.real_precision');
     }
 
 }

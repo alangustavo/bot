@@ -14,6 +14,10 @@ namespace App\models;
  */
 class OHLCVCollection {
 
+    /**
+     *
+     * @var type
+     */
     private $timestamps = [];
     private $opens      = [];
     private $highs      = [];
@@ -21,6 +25,10 @@ class OHLCVCollection {
     private $closes     = [];
     private $volumes    = [];
 
+    /**
+     * Add a OHLCV to collection
+     * @param OHLCV $ohlcv
+     */
     function add(OHLCV $ohlcv) {
         $this->timestamps[] = $ohlcv->getTimestamp();
         $this->opens[]      = $ohlcv->getOpen();
@@ -30,32 +38,108 @@ class OHLCVCollection {
         $this->volumes[]    = $ohlcv->getVolume();
     }
 
+    /**
+     * Return a quantity of elements in the collection
+     * @return int
+     */
     public function getCount() {
         return count($this->timestamps);
     }
 
-    public function getCloses() {
-        return $this->closes;
+    /**
+     * Return an Array of Closes or one especific close from index.
+     * @param int $index
+     * @return (float[]|float)
+     */
+    public function getCloses(?int $index = null) {
+        if ($index === null) {
+            return $this->closes;
+        }
+        else {
+            return $this->closes[$index];
+        }
     }
 
-    public function getOpens() {
-        return $this->opens;
+    /**
+     * Return an Array of open or one especific open from index.
+     * @param int $index
+     * @return (float[]|float)
+     */
+    public function getOpens(?int $index = null) {
+        if ($index === null) {
+            return $this->opens;
+        }
+        else {
+            return $this->opens[$index];
+        }
     }
 
-    public function getTimestamps() {
-        return $this->timestamps;
+    /**
+     * Return an Array of timestamps or one especific timestamp from index.
+     * @param int $index
+     * @return (int[]|int)
+     */
+    public function getTimestamps(?int $index = null) {
+        if ($index === null) {
+            return $this->timestamps;
+        }
+        else {
+            return $this->timestamps[$index];
+        }
     }
 
-    public function getHighs() {
-        return $this->highs;
+    /**
+     * Return an Array of highs or one especific high from index.
+     * @param int $index
+     * @return (float[]|float)
+     */
+    public function getHighs(?int $index = null) {
+        if ($index === null) {
+            return $this->highs;
+        }
+        else {
+            return $this->highs[$index];
+        }
     }
 
-    public function getLows() {
-        return $this->lows;
+    /**
+     * Return an Array of lows or one especific low from index.
+     * @param int $index
+     * @return (float[]|float)
+     */
+    public function getLows(?int $index = null) {
+        if ($index === null) {
+            return $this->lows;
+        }
+        else {
+            return $this->lows[$index];
+        }
     }
 
-    public function getVolumes() {
-        return $this->volumes;
+    /**
+     * Return an Array of volumes or one especific volume from index.
+     * @param int $index
+     * @return (float[]|float)
+     */
+    public function getVolumes(?int $index = null) {
+        if ($index === null) {
+            return $this->volumes;
+        }
+        else {
+            return $this->volumes[$index];
+        }
+    }
+
+    /**
+     *
+     * @param int $index
+     * @param string $format
+     * @return string
+     */
+    public function getFormatedTimeStamp($index, $format = "Y-m-d H:i:s"): string {
+        $date = new \DateTime();
+        $date->setTimestamp($this->getTimestamps($index) / 1000);
+        return $date->format($format);
     }
 
 }

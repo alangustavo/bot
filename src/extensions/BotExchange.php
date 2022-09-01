@@ -12,7 +12,7 @@ namespace App\extensions;
  *
  * @author alangustavo
  */
-class Exchange {
+class BotExchange {
 
     /**
      * ccxt/exchange
@@ -37,7 +37,10 @@ class Exchange {
             ));
         }
         else {
-            throw new BotException("I didn't find this exchange '{$exchange}' in my list of supported exchanges.");
+            $message = "I didn't find this exchange '{$exchange}' in the list of supported exchanges (ccxt).";
+            $message .= "Please, check: https://docs.ccxt.com/en/latest/exchange-markets.html?highlight=exchanges";
+            $message .= "to know the list of supported exchanges";
+            throw new BotException($message);
         }
     }
 
