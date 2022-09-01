@@ -8,4 +8,10 @@
 /**
  * @author alangustavo
  */
-require_once '../vendor/autoload.php';
+require_once '../bootstrap.php';
+
+echo "\n********** TESTING **********";
+$_ENV["ENVIROMENT"] = "test";
+echo "\nCHANGED ENVIROMENT...: " . $_ENV["ENVIROMENT"];
+echo "\n";
+

@@ -1,10 +1,10 @@
 <?php
 
-/* 
+/*
  * Este arquivo é parte do Projeto bot
  * Autor:alangustavo
  */
 
-require_once './vendor/autoload.php';
+require_once 'bootstrap.php';
 
-$a = new App\models\TimeFrame();
+echo "Olá";

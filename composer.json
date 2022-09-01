@@ -13,7 +13,11 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
-        "vitexsoftware/phpunit-skeleton-generator": "*"
+        "phpunit/phpunit": "^9.5",
+        "vitexsoftware/phpunit-skeleton-generator": "^2.1"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.4",
+        "ccxt/ccxt": "^1.92"
     }
 }
