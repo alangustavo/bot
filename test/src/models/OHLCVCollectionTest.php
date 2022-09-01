@@ -23,7 +23,7 @@ class OHLCVCollectionTest extends TestCase {
     protected function setUp(): void {
         $this->object = new OHLCVCollection();
 
-        $ohcl1 = [
+        $ohcl0 = [
             1504541580000, // UTC timestamp in milliseconds, integer
             4230.4, // (O)pen price, float
             4240.8, // (H)ighest price, float
@@ -32,7 +32,7 @@ class OHLCVCollectionTest extends TestCase {
             35.000001    // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
         ];
 
-        $ohcl2 = [
+        $ohcl1 = [
             1504541680000, // UTC timestamp in milliseconds, integer
             4231.4, // (O)pen price, float
             4241.8, // (H)ighest price, float
@@ -40,14 +40,34 @@ class OHLCVCollectionTest extends TestCase {
             4231.7, // (C)losing price, float
             35.000002   // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
         ];
-        $ohcl3 = [
+        $ohcl2 = [
             1504541880000, // UTC timestamp in milliseconds, integer
+            4232.4, // (O)pen price, float
+            4242.8, // (H)ighest price, float
+            4232.0, // (L)owest price, float
+            4232.7, // (C)losing price, float
+            37.000003    // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
+        ];
+        $ohcl3 = [
+            1504541980000, // UTC timestamp in milliseconds, integer
             4233.4, // (O)pen price, float
             4243.8, // (H)ighest price, float
             4233.0, // (L)owest price, float
             4233.7, // (C)losing price, float
-            37.000003    // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
+            38.000003    // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
         ];
+
+        $this->object->add(new OHLCV($ohcl0));
+        $this->object->add(new OHLCV($ohcl1));
+        $this->object->add(new OHLCV($ohcl2));
+        $this->object->add(new OHLCV($ohcl3));
+    }
+
+    /**
+     * @covers App\models\OHLCVCollection::add
+     * @todo   Implement testAdd().
+     */
+    public function testAdd() {
         $ohcl4 = [
             1504541980000, // UTC timestamp in milliseconds, integer
             4234.4, // (O)pen price, float
@@ -56,27 +76,7 @@ class OHLCVCollectionTest extends TestCase {
             4234.7, // (C)losing price, float
             38.000003    // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
         ];
-
-        $this->object->add(new OHLCV($ohcl1));
-        $this->object->add(new OHLCV($ohcl2));
-        $this->object->add(new OHLCV($ohcl3));
-        $this->object->add(new OHLCV($ohcl4));
-    }
-
-    /**
-     * @covers App\models\OHLCVCollection::add
-     * @todo   Implement testAdd().
-     */
-    public function testAdd() {
-        $ohcl5 = [
-            1504541980000, // UTC timestamp in milliseconds, integer
-            4234.4, // (O)pen price, float
-            4244.8, // (H)ighest price, float
-            4234.0, // (L)owest price, float
-            4234.7, // (C)losing price, float
-            38.000003    // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
-        ];
-        $this->object->Add(new OHLCV($ohcl5));
+        $this->object->Add(new OHLCV($ohcl4));
         $this->assertEquals(5, $this->object->getCount());
     }
 
@@ -86,6 +86,16 @@ class OHLCVCollectionTest extends TestCase {
      */
     public function testGetCount() {
         $this->assertEquals(4, $this->object->GetCount());
+    }
+
+    public function testGetCloses() {
+        $closes = [4230.7, 4231.7, 4232.7, 4233.7];
+        $this->assertEquals($closes, $this->object->getCloses());
+    }
+
+    public function testGetOpens() {
+        $opens = [4230.4, 4231.4, 4232.4, 4233.4];
+        $this->assertEquals($opens, $this->object->getOpens());
     }
 
 }

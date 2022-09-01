@@ -34,4 +34,28 @@ class OHLCVCollection {
         return count($this->timestamps);
     }
 
+    public function getCloses() {
+        return $this->closes;
+    }
+
+    public function getOpens() {
+        return $this->opens;
+    }
+
+    public function getTimestamps() {
+        return $this->timestamps;
+    }
+
+    public function getHighs() {
+        return $this->highs;
+    }
+
+    public function getLows() {
+        return $this->lows;
+    }
+
+    public function getVolumes() {
+        return $this->volumes;
+    }
+
 }
