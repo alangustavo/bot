@@ -7,4 +7,4 @@
 
 require_once 'bootstrap.php';
 
-echo "Olá";
+//$e = new \App\extensions\Exchange("dads");

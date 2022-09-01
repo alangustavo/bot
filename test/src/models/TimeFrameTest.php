@@ -12,7 +12,7 @@ class TimeFrameTest extends \PHPUnit\Framework\TestCase {
 
     public function testIfNotAValidTimeFrame() {
         $this->expectException(BotException::class);
-        $tf = new TimeFrame("3ff");
+        new TimeFrame("3ff");
     }
 
     public function testValidTimeFrame1minute() {

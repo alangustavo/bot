@@ -14,11 +14,40 @@ namespace App\models;
  */
 class OHLCV {
 
+    /**
+     * A timestamp date
+     * @var int
+     */
     private $timestamp;
+
+    /**
+     * Open: first traded price in that period
+     * @var float
+     */
     private $open;
+
+    /**
+     * Upper wick: highest traded price in that period
+     * @var float
+     */
     private $high;
+
+    /**
+     * Lower wick: lowest traded price in that period.
+     * @var float
+     */
     private $low;
+
+    /**
+     * Close: last traded price in that period
+     * @var float
+     */
     private $close;
+
+    /**
+     * Volume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
+     * @var float
+     */
     private $volume;
 
     /**
@@ -40,31 +69,60 @@ class OHLCV {
         $this->volume    = $ohlcv[5];
     }
 
-    public function getTimestamp() {
+    /**
+     * Get UTC timestamp in milliseconds
+     * @return int
+     */
+    public function getTimestamp(): int {
         return $this->timestamp;
     }
 
-    public function getOpen() {
+    /**
+     * Get first traded price in that period
+     * @return float
+     */
+    public function getOpen(): float {
         return $this->open;
     }
 
-    public function getHigh() {
+    /**
+     * Get highest traded price in that period
+     * @return float
+     */
+    public function getHigh(): float {
         return $this->high;
     }
 
-    public function getLow() {
+    /**
+     * Get lowest traded price in that period.
+     * @return float
+     */
+    public function getLow(): float {
         return $this->low;
     }
 
-    public function getClose() {
+    /**
+     * Get last traded price in that period
+     * @return float
+     */
+    public function getClose(): float {
         return $this->close;
     }
 
-    public function getVolume() {
+    /**
+     * Volume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
+     * @return float
+     */
+    public function getVolume(): float {
         return $this->volume;
     }
 
-    public function GetDateFormatted($format = "Y-m-d H:i:s") {
+    /**
+     * Get a formated Date
+     * @param string $format
+     * @return string
+     */
+    public function getDateFormat($format = "Y-m-d H:i:s"): string {
         $date = new \DateTime();
         $date->setTimestamp($this->getTimestamp() / 1000);
         return $date->format($format);

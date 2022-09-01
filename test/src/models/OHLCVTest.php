@@ -91,7 +91,7 @@ class OHLCVTest extends \PHPUnit\Framework\TestCase {
      * @todo   Implement testGetDateFormatted().
      */
     public function testGetDateFormatted() {
-        $this->assertEquals("2017-09-04 16:13:00", $this->object->GetDateFormatted());
+        $this->assertEquals("2017-09-04 16:13:00", $this->object->getDateFormat());
     }
 
 }
