@@ -41,7 +41,7 @@ class OHLCVCollectionTest extends TestCase {
             35.000002   // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
         ];
         $ohcl2 = [
-            1504541880000, // UTC timestamp in milliseconds, integer
+            1504541780000, // UTC timestamp in milliseconds, integer
             4232.4, // (O)pen price, float
             4242.8, // (H)ighest price, float
             4232.0, // (L)owest price, float
@@ -49,7 +49,7 @@ class OHLCVCollectionTest extends TestCase {
             37.000003    // (V)olume float (usually in terms of the base currency, the exchanges docstring may list whether quote or base units are used)
         ];
         $ohcl3 = [
-            1504541980000, // UTC timestamp in milliseconds, integer
+            1504541880000, // UTC timestamp in milliseconds, integer
             4233.4, // (O)pen price, float
             4243.8, // (H)ighest price, float
             4233.0, // (L)owest price, float
@@ -96,6 +96,21 @@ class OHLCVCollectionTest extends TestCase {
     public function testGetOpens() {
         $opens = [4230.4, 4231.4, 4232.4, 4233.4];
         $this->assertEquals($opens, $this->object->getOpens());
+    }
+
+    public function testGetHighs() {
+        $highs = [4240.8, 4241.8, 4242.8, 4243.8];
+        $this->assertEquals($highs, $this->object->getHighs());
+    }
+
+    public function testGetLows() {
+        $lows = [4230.0, 4231.0, 4232.0, 4233.0];
+        $this->assertEquals($lows, $this->object->getLows());
+    }
+
+    public function testGetTimeStamps() {
+        $timeStamps = [1504541580000, 1504541680000, 1504541780000, 1504541880000];
+        $this->assertEquals($timeStamps, $this->object->getTimestamps());
     }
 
 }
