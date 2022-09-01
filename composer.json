@@ -1,0 +1,19 @@
+{
+    "name": "vendor/bot",
+    "description": "Bot PHP to Trade Cryptocurrencies.",
+    "authors": [
+        {
+            "name": "alangustavo",
+            "email": "alan.gustavo@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "vitexsoftware/phpunit-skeleton-generator": "*"
+    }
+}
