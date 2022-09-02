@@ -3,16 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/bot/test/bootstrap.php</file>
-            <file>file:/C:/bot/src/extensions/BotException.php</file>
+            <file>file:/C:/bot/test/src/extensions/ExchangeTest.php</file>
             <file>file:/C:/bot/src/models/OHLCV.php</file>
-            <file>file:/C:/bot/test/src/models/TimeFrameTest.php</file>
-            <file>file:/C:/bot/src/models/OHLCVCollection.php</file>
-            <file>file:/C:/bot/index.php</file>
+            <file>file:/C:/bot/src/extensions/BotExchange.php</file>
             <file>file:/C:/bot/test/src/models/OHLCVCollectionTest.php</file>
-            <file>file:/C:/bot/.env</file>
             <file>file:/C:/bot/.env.example</file>
             <file>file:/C:/bot/composer.json</file>
+            <file>file:/C:/bot/test/bootstrap.php</file>
+            <file>file:/C:/bot/src/extensions/BotException.php</file>
+            <file>file:/C:/bot/src/models/OHLCVCollection.php</file>
+            <file>file:/C:/bot/bootstrap.php</file>
+            <file>file:/C:/bot/index.php</file>
+            <file>file:/C:/bot/src/services/MarketData.php</file>
+            <file>file:/C:/bot/.env</file>
             <file>file:/C:/bot/src/models/TimeFrame.php</file>
             <file>file:/C:/bot/test/src/models/OHLCVTest.php</file>
         </group>

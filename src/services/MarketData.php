@@ -2,7 +2,8 @@
 
 namespace App\services;
 
-use App\extensions\BotExchange as Exchange2;
+use App\extensions\BotExchange;
+use App\models\OHLCVCollection;
 use App\models\TimeFrame;
 use ccxt\Exchange;
 
@@ -25,6 +26,12 @@ class MarketData {
     private $symbol;
 
     /**
+     * timeframe
+     * @var TimeFrame
+     */
+    private $timeframe;
+
+    /**
      * Exchange
      * @var Exchange
      */
@@ -32,13 +39,24 @@ class MarketData {
 
     /**
      *
-     * @param string $symbol - ex.: BTC/USDT
-     * @param Exchange2 $exchange
+     * @var OHLCVCollection
      */
-    public function __construct(string $symbol, TimeFrame $timeFrame, Exchange2 $exchange) {
+    private $data;
 
-        $this->exchange = $exchange->getExchange();
-        $precision      = ini_get('trader.real_precision');
+    /**
+     *
+     * @param string $symbol - ex.: BTC/USDT
+     * @param BotExchange $exchange
+     */
+    public function __construct(string $symbol, TimeFrame $timeFrame, BotExchange $exchange) {
+        $this->exchange  = $exchange;
+        $this->symbol    = $symbol;
+        $this->timeframe = $timeFrame;
+        $this->data      = new OHLCVCollection();
+    }
+
+    public function getMarketData() {
+
     }
 
 }

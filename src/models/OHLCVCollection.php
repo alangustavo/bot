@@ -29,7 +29,7 @@ class OHLCVCollection {
      * Add a OHLCV to collection
      * @param OHLCV $ohlcv
      */
-    function add(OHLCV $ohlcv) {
+    public function add(OHLCV $ohlcv) {
         $this->timestamps[] = $ohlcv->getTimestamp();
         $this->opens[]      = $ohlcv->getOpen();
         $this->highs[]      = $ohlcv->getHigh();
@@ -138,6 +138,7 @@ class OHLCVCollection {
      */
     public function getFormatedTimeStamp($index, $format = "Y-m-d H:i:s"): string {
         $date = new \DateTime();
+        $date->setTimezone(new \DateTimeZone('UTC'));
         $date->setTimestamp($this->getTimestamps($index) / 1000);
         return $date->format($format);
     }

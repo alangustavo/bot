@@ -7,6 +7,13 @@
 
 namespace App\extensions;
 
+date_default_timezone_set('UTC');
+
+use App\models\OHLCV;
+use App\models\OHLCVCollection;
+use App\models\TimeFrame;
+use ccxt\Exchange;
+
 /**
  * Create a ccxt/exchange with default values.
  *
@@ -16,7 +23,7 @@ class BotExchange {
 
     /**
      * ccxt/exchange
-     * @var ccxt/exchange;
+     * @var Exchange;
      */
     private $exchange;
 
@@ -50,15 +57,30 @@ class BotExchange {
      * @return bool
      */
     private function isValidExchange(string $exchange): bool {
-        return in_array($exchange, \ccxt\Exchange::$exchanges);
+        return in_array($exchange, Exchange::$exchanges);
     }
 
     /**
      * Return an Exchange from ccxt
-     * @return \ccxt\Exchange
+     * @return Exchange
      */
-    public function getExchange(): \ccxt\Exchange {
+    public function getExchange(): Exchange {
         return $this->exchange;
+    }
+
+    /**
+     * Return a OHLCVCollection with the data.
+     * @param string $symbol
+     * @param TimeFrame $timeframe
+     * @return OHLCVCollection
+     */
+    public function fetchOHLCV(string $symbol, TimeFrame $timeframe) {
+        $collection = new OHLCVCollection();
+        $data       = $this->exchange->fetch_ohlcv(symbol: $symbol, timeframe: $timeframe->getTimeFrame());
+        foreach ($data as $ohlcv) {
+            $collection->add(new OHLCV($ohlcv));
+        }
+        return $collection;
     }
 
 }
