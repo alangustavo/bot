@@ -7,6 +7,9 @@
 
 namespace App\models;
 
+use DateTime;
+use DateTimeZone;
+
 /**
  * Description of OHLCVCollection
  *
@@ -137,9 +140,8 @@ class OHLCVCollection {
      * @return string
      */
     public function getFormatedTimeStamp($index, $format = "Y-m-d H:i:s"): string {
-        $date = new \DateTime();
-        $date->setTimezone(new \DateTimeZone('UTC'));
-        $date->setTimestamp($this->getTimestamps($index) / 1000);
+
+        $date = new DateTime('@' . $this->getTimestamps($index) / 1000, new DateTimeZone('UTC'));
         return $date->format($format);
     }
 

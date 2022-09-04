@@ -36,4 +36,34 @@ class TimeFrame {
         return $this->timeFrame;
     }
 
+    public function getTimeUnit() {
+        $tu = $this->timeFrame[-1];
+        switch ($tu) {
+            case "M":
+                $timeUnit = "month";
+                break;
+            case "W":
+                $timeUnit = "week";
+                break;
+            case "d":
+                $timeUnit = "day";
+                break;
+            case "h":
+                $timeUnit = "hour";
+                break;
+            case "m":
+                $timeUnit = "minute";
+                break;
+
+            default:
+                $timeUnit = false;
+                break;
+        }
+        return $timeUnit;
+    }
+
+    public function getTimeQuantity() {
+        return intval($this->timeFrame);
+    }
+
 }

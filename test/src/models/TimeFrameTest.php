@@ -45,4 +45,49 @@ class TimeFrameTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals("1M", $tf);
     }
 
+    public function testMonthGetTimeUnit() {
+        $tf = new TimeFrame("1M");
+        $this->assertEquals("month", $tf->getTimeUnit());
+    }
+
+    public function testWeekGetTimeUnit() {
+        $tf = new TimeFrame("1W");
+        $this->assertEquals("week", $tf->getTimeUnit());
+    }
+
+    public function testDayhGetTimeUnit() {
+        $tf = new TimeFrame("1d");
+        $this->assertEquals("day", $tf->getTimeUnit());
+    }
+
+    public function testHourGetTimeUnit() {
+        $tf = new TimeFrame("1h");
+        $this->assertEquals("hour", $tf->getTimeUnit());
+    }
+
+    public function testMinuteGetTimeUnit() {
+        $tf = new TimeFrame("1m");
+        $this->assertEquals("minute", $tf->getTimeUnit());
+    }
+
+    public function testGetTimeQuantity5m() {
+        $tf = new TimeFrame("5m");
+        $this->assertEquals(5, $tf->getTimeQuantity());
+    }
+
+    public function testGetTimeQuantity30m() {
+        $tf = new TimeFrame("30m");
+        $this->assertEquals(30, $tf->getTimeQuantity());
+    }
+
+    public function testGetTimeQuantity15m() {
+        $tf = new TimeFrame("15m");
+        $this->assertEquals(15, $tf->getTimeQuantity());
+    }
+
+    public function testGetTimeQuantity1d() {
+        $tf = new TimeFrame("1d");
+        $this->assertEquals(1, $tf->getTimeQuantity());
+    }
+
 }

@@ -8,8 +8,9 @@ use Dotenv\Dotenv;
  * Autor:alangustavo
  */
 date_default_timezone_set('UTC');
-require_once __DIR__ . '/vendor/autoload.php';
+$DS = DIRECTORY_SEPARATOR;
 
+require_once __DIR__ . "{$DS}vendor{$DS}autoload.php";
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 

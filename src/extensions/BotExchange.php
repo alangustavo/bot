@@ -74,9 +74,21 @@ class BotExchange {
      * @param TimeFrame $timeframe
      * @return OHLCVCollection
      */
-    public function fetchOHLCV(string $symbol, TimeFrame $timeframe) {
+    public function fetchOHLCV(string $symbol, TimeFrame $timeframe, ?\DateTime $since = null, int $limit = 499) {
+
         $collection = new OHLCVCollection();
-        $data       = $this->exchange->fetch_ohlcv(symbol: $symbol, timeframe: $timeframe->getTimeFrame());
+        $limit++;
+        if ($since != null) {
+            $timeQuantity = $timeframe->getTimeQuantity();
+            $str          = "{$timeQuantity} {$timeframe->getTimeUnit()}";
+            $since->sub(\DateInterval::createFromDateString($str));
+            $data         = $this->exchange->fetch_ohlcv(symbol: $symbol, timeframe: $timeframe->getTimeFrame(), since: $since->getTimestamp() * 1000, limit: $limit);
+        }
+        else {
+
+            $data = $this->exchange->fetch_ohlcv(symbol: $symbol, timeframe: $timeframe->getTimeFrame(), limit: $limit);
+        }
+
         foreach ($data as $ohlcv) {
             $collection->add(new OHLCV($ohlcv));
         }
