@@ -13,45 +13,27 @@ class BotExchangeTest extends TestCase {
 
     public function testBinanceAsValidExchange() {
 
-        $exchange = new BotExchange("binance");
-        $this->assertEquals("ccxt\\binance", get_class($exchange->getExchange()));
+        $exchange = BotExchange::getInstance("binance");
+        $this->assertEquals("ccxt\\binance", get_class($exchange));
     }
 
     public function testKrakenAsValidExchange() {
-        $exchange = new BotExchange("kraken");
-        $this->assertEquals("ccxt\\kraken", get_class($exchange->getExchange()));
+
+        $_ENV["KRAKEN_API_KEY"]    = "123";
+        $_ENV["KRAKEN_API_SECRET"] = 123;
+        $exchange                  = BotExchange::getInstance("kraken");
+        $this->assertEquals("ccxt\\kraken", get_class($exchange));
     }
 
     public function testInvalidExchante() {
         $this->expectException(BotException::class);
-        new BotExchange("inexistent");
+        BotExchange::getInstance("inexistent");
     }
 
     public function testDefaultExchange() {
         $_ENV["EXCHANGE"] = "binance";
-        $exchange         = new BotExchange();
-        $this->assertEquals("ccxt\\binance", get_class($exchange->getExchange()));
-    }
-
-    public function testSinceDateExchange() {
-
-        $_ENV["EXCHANGE"] = "binance";
-        $exchange         = new BotExchange();
-        $data             = $exchange->fetchOHLCV("SOL/USDT", new \App\models\TimeFrame("30m"), new \DateTime("2020-12-31 00:00:00"), limit: 2);
-        $this->assertEquals("2020-12-31 00:00:00", $data->getFormatedTimeStamp(0));
-        $this->assertEquals(2, $data->getCount());
-    }
-
-    public function testDates() {
-
-        $_ENV["EXCHANGE"] = "binance";
-        $exchange         = new BotExchange();
-        $date             = new \DateTime("now");
-        $data             = $exchange->fetchOHLCV("SOL/USDT", new \App\models\TimeFrame("1d"));
-        $this->assertEquals($date->format("Y-m-d 00:00:00"), $data->getFormatedTimeStamp(499));
-        $date->sub(\DateInterval::createFromDateString("499 days"));
-        $this->assertEquals($date->format("Y-m-d 00:00:00"), $data->getFormatedTimeStamp(0));
-        $this->assertEquals(500, $data->getCount());
+        $exchange         = BotExchange::getInstance();
+        $this->assertEquals("ccxt\\binance", get_class($exchange));
     }
 
 }

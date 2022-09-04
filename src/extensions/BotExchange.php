@@ -7,15 +7,10 @@
 
 namespace App\extensions;
 
-date_default_timezone_set('UTC');
-
-use App\models\OHLCV;
-use App\models\OHLCVCollection;
-use App\models\TimeFrame;
 use ccxt\Exchange;
 
 /**
- * Create a ccxt/exchange with default values.
+ * Description of BotExchange
  *
  * @author alangustavo
  */
@@ -23,76 +18,81 @@ class BotExchange {
 
     /**
      * ccxt/exchange
-     * @var Exchange;
+     * @var Exchange[];
      */
-    private $exchange;
+    private static $exchange = [];
+
+    /**
+     * ccxt/exchange
+     * @var Exchange[];
+     */
+    private static $testExchange = [];
+
+    /**
+     * To enable singleton
+     */
+    private function __construct() {
+        // Singleton;
+    }
 
     /**
      * Constructor of Class
-     * @param string|null $exchange - if you not send an exchange the construct will use the $_ENV["EXCHANGE"]
+     * @param string|null $exchangeName - if you not send an exchange the construct will use the $_ENV["EXCHANGE"]
      * @throws BotException
      */
-    public function __construct(?string $exchange = null) {
-        if ($exchange === null) {
-            $exchange = $_ENV["EXCHANGE"];
+    public static function getInstance(?string $exchangeName = null) {
+        if ($exchangeName === null) {
+            $exchangeName = $_ENV["EXCHANGE"];
         }
-        if ($this->isValidExchange($exchange)) {
-            $exchange_class = "\\ccxt\\$exchange";
-            $this->exchange = new $exchange_class(array(
-                'apiKey' => $_ENV["API_KEY"],
-                'secret' => $_ENV["API_SECRET"],
+
+        if (self::isValidExchange($exchangeName)) {
+            $exchange_class                = "\\ccxt\\$exchangeName";
+            self::$exchange[$exchangeName] = new $exchange_class(array(
+                'apiKey'          => $_ENV[strtoupper("{$exchangeName}_API_KEY")],
+                'secret'          => $_ENV[strtoupper("{$exchangeName}_API_SECRET")],
+                'enableRateLimit' => true
             ));
+            self::$exchange[$exchangeName]->load_markets();
         }
         else {
-            $message = "I didn't find this exchange '{$exchange}' in the list of supported exchanges (ccxt).";
+            $message = "I didn't find this exchange '{$exchangeName}' in the list of supported exchanges (ccxt).";
             $message .= "Please, check: https://docs.ccxt.com/en/latest/exchange-markets.html?highlight=exchanges";
             $message .= "to know the list of supported exchanges";
             throw new BotException($message);
         }
+        return self::$exchange[$exchangeName];
     }
 
     /**
-     * Check if the $exchange is supported by ccxt
-     * @param string $exchange
+     * Check if the exchangeName is supported by ccxt
      * @return bool
      */
-    private function isValidExchange(string $exchange): bool {
-        return in_array($exchange, Exchange::$exchanges);
+    private static function isValidExchange(string $exchangeName): bool {
+        return in_array($exchangeName, Exchange::$exchanges);
     }
 
-    /**
-     * Return an Exchange from ccxt
-     * @return Exchange
-     */
-    public function getExchange(): Exchange {
-        return $this->exchange;
-    }
+    public static function getSandBoxInstance(?string $exchangeName = null) {
+        if ($exchangeName === null) {
+            $exchangeName = $_ENV["EXCHANGE"];
+        }
 
-    /**
-     * Return a OHLCVCollection with the data.
-     * @param string $symbol
-     * @param TimeFrame $timeframe
-     * @return OHLCVCollection
-     */
-    public function fetchOHLCV(string $symbol, TimeFrame $timeframe, ?\DateTime $since = null, int $limit = 499) {
-
-        $collection = new OHLCVCollection();
-        $limit++;
-        if ($since != null) {
-            $timeQuantity = $timeframe->getTimeQuantity();
-            $str          = "{$timeQuantity} {$timeframe->getTimeUnit()}";
-            $since->sub(\DateInterval::createFromDateString($str));
-            $data         = $this->exchange->fetch_ohlcv(symbol: $symbol, timeframe: $timeframe->getTimeFrame(), since: $since->getTimestamp() * 1000, limit: $limit);
+        if (self::isValidExchange($exchangeName)) {
+            $exchange_class                    = "\\ccxt\\$exchangeName";
+            self::$testExchange[$exchangeName] = new $exchange_class(array(
+                'apiKey'          => $_ENV[strtoupper("{$exchangeName}_TEST_API_KEY")],
+                'secret'          => $_ENV[strtoupper("{$exchangeName}_TEST_API_SECRET")],
+                'enableRateLimit' => true
+            ));
+            self::$testExchange[$exchangeName]->set_sandbox_mode(true);
+            self::$testExchange[$exchangeName]->load_markets();
         }
         else {
-
-            $data = $this->exchange->fetch_ohlcv(symbol: $symbol, timeframe: $timeframe->getTimeFrame(), limit: $limit);
+            $message = "I didn't find this exchange '{$exchangeName}' in the list of supported exchanges (ccxt).";
+            $message .= "Please, check: https://docs.ccxt.com/en/latest/exchange-markets.html?highlight=exchanges";
+            $message .= "to know the list of supported exchanges";
+            throw new BotException($message);
         }
-
-        foreach ($data as $ohlcv) {
-            $collection->add(new OHLCV($ohlcv));
-        }
-        return $collection;
+        return self::$testExchange[$exchangeName];
     }
 
 }

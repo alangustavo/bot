@@ -3,7 +3,7 @@
 namespace App\services;
 
 use App\database\OHLCVFromDatabase;
-use App\extensions\BotExchange;
+use App\extensions\FetchOHLCV;
 use App\models\OHLCVCollection;
 use App\models\TimeFrame;
 use ccxt\Exchange;
@@ -36,9 +36,9 @@ class MarketData {
 
     /**
      * Exchange
-     * @var Exchange
+     * @var FetchOHLCV
      */
-    private $exchange;
+    private $fetchOHLCV;
 
     /**
      *
@@ -49,18 +49,18 @@ class MarketData {
     /**
      *
      * @param string $symbol - ex.: BTC/USDT
-     * @param BotExchange $exchange
+     * @param FetchOHLCV $fetchOHLCV
      */
-    public function __construct(string $symbol, TimeFrame $timeframe, BotExchange $exchange) {
-        $this->exchange  = $exchange;
-        $this->symbol    = $symbol;
-        $this->timeframe = $timeframe;
-        $this->data      = new OHLCVCollection();
+    public function __construct(string $symbol, TimeFrame $timeframe, FetchOHLCV $fetchOHLCV) {
+        $this->fetchOHLCV = $fetchOHLCV;
+        $this->symbol     = $symbol;
+        $this->timeframe  = $timeframe;
+        $this->data       = new OHLCVCollection();
     }
 
     public function getMarketData() {
 
-        $this->data = $this->exchange->fetchOHLCV(timeframe: $this->timeframe, symbol: $this->symbol);
+        $this->data = $this->fetchOHLCV->fetchOHLCV(timeframe: $this->timeframe, symbol: $this->symbol);
         return $this->data;
     }
 
@@ -77,7 +77,7 @@ class MarketData {
             return $this->data;
         }
         else {
-            $this->data = $this->exchange->fetchOHLCV(timeframe: $this->timeframe, symbol: $this->symbol, since: $since, limit: $limit);
+            $this->data = $this->fetchOHLCV->fetchOHLCV(timeframe: $this->timeframe, symbol: $this->symbol, since: $since, limit: $limit);
             $this->saveOHLCV($this->data);
             return $this->data;
         }
@@ -89,8 +89,8 @@ class MarketData {
         return $data;
     }
 
-    private function getHistoricalMarketDataFromExchange(DateTime $since, int $quantity = 500, int $limit = 500) {
-        $timeQuantity = $this->timeframe->getTimeQuantity() * ($quantity - 1);
+    private function getHistoricalMarketDataFromExchange(DateTime $since, int $limit = 500) {
+        $timeQuantity = $this->timeframe->getTimeQuantity() * ($limit - 1);
         $str          = "{$timeQuantity} {$this->timeframe->getTimeUnit()}";
         $since->sub(DateInterval::createFromDateString($str));
         return $this->data;
